@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Card, Button, InputGroup } from "@blueprintjs/core";
-
+import initialData from "./initialData"
+import StageColumn from "./components/StageColumn"
 import "./App.css";
 import Stage from "./components/Stage";
 
@@ -10,10 +11,11 @@ export const STAGE_NAMES = ["Backlog", "To Do", "Ongoing", "Done"];
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = initialData;
   }
 
   render() {
+    console.log("initialData", initialData)
     return (
       <div className="App">
         <h1>Kanban board</h1>
@@ -21,7 +23,18 @@ class App extends Component {
           style={{
             display: "flex"
           }}
-        ></div>
+        >
+          {
+            this.state.stageOrder.map((stageId) => {
+              const stage = this.state.Stage[stageId]
+              const tasks = stage.taskID.map(taskId => {
+                return this.state.task[taskId]
+              })
+              console.log(this.state)
+              return <StageColumn key= {stage.id} stage={stage} tasks={tasks} />
+            })
+          }
+        </div>
       </div>
     );
   }
