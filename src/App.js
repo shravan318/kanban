@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Card, Button, InputGroup } from "@blueprintjs/core";
 import initialData from "./initialData"
 import StageColumn from "./components/StageColumn"
+import  {DragDropContext} from "react-beautiful-dnd"
 import "./App.css";
 import Stage from "./components/Stage";
 
@@ -12,6 +13,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = initialData;
+  }
+  onDragEnd = (result) => {
+    //todo
   }
 
   render() {
@@ -24,16 +28,18 @@ class App extends Component {
             display: "flex"
           }}
         >
+          <DragDropContext onDragEnd={this.onDragEnd}
+          >
           {
             this.state.stageOrder.map((stageId) => {
               const stage = this.state.Stage[stageId]
               const tasks = stage.taskID.map(taskId => {
                 return this.state.task[taskId]
               })
-              console.log(this.state)
-              return <StageColumn key= {stage.id} stage={stage} tasks={tasks} />
+              return <StageColumn key={stage.id} stage={stage} tasks={tasks} />
             })
           }
+          </DragDropContext>
         </div>
       </div>
     );
